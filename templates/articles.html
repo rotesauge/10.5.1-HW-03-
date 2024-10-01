@@ -1,0 +1,82 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}!
+
+{% load custom_tags %}
+
+{% block title %}
+Горячие  статьи!!!
+{% endblock title %}
+
+{% block head %}
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    table.center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+</style>
+{% endblock head %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+<h1>Статьи</h1>
+<hr size="10">
+
+<form action="" method="get">
+    {{ filterset.form.as_p }}
+    <input type="submit" value="Найти"/>
+</form>
+
+{% if articles %}
+
+{% for article in articles %}
+<table>
+    <tr>
+        <td><a href="/content/articles/{{ article.id }}"><h2 align="left"><b>{{ article.caption|censor }}</b></h2></a></td>
+    </tr>
+    <tr>
+        <td><h3><i>{{ article.text|censor|truncatechars:50 }}</i></h3></td>
+    </tr>
+    <tr>
+        <td><h5 align="left"><i>{{ article.datetime|default_if_none:time_now }}</i></h5></td>
+
+    </tr>
+</table>
+<br>
+<br>
+{% endfor %}
+{% else %}
+<h2>Странно , видимо ничего непроисходит ....</h2>
+{% endif %}
+
+{% if page_obj.has_previous %}
+
+<a href="?{% url_replace page=1 %}">1</a>
+{% if page_obj.previous_page_number != 1 %}
+...
+<a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+{% endif %}
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+<a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+<a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+{% endif %}
+{% endif %}
+
+{% if is_not_author %}
+<br>
+<button> <a href="sign/upgrade/"> Хочу стать автором!</a> </button>
+{% endif %}
+<br>
+<h3> <a href="/content/articles/create/"> Создать </a> </h3>
+
+
+{% endblock content %}

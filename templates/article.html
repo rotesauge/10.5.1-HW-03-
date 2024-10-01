@@ -1,0 +1,28 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+
+{% block title %}
+article
+{% endblock title %}
+
+
+{% block content %}
+<h3> СТАТЬЯ </h3>
+<table>
+    <tr>
+        <td><h1 align="center"><b>{{ article.caption|censor }}</b></h1></td>
+    </tr>
+    <tr>
+        <td><p>         </p></td>
+        <td><h3 ><i>{{ article.datetime|default_if_none:time_now }}</i></h3></td>
+    </tr>
+    <tr>
+        <td><h3 align="justify "><i>{{ article.text|censor }}</i></h3></td>
+    </tr>
+</table>
+<h3> <a href="/content/articles/{{ article.id }}/update/"> Редактировать </a> </h3>
+<h3> <a href="/content/articles/{{ article.id }}/delete/"> Удалить </a> </h3>
+
+{% endblock content %}

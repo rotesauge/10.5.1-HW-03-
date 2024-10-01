@@ -1,0 +1,61 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}!
+
+{% load custom_tags %}
+
+{% block title %}
+Горячие новости и статьи!!!
+{% endblock title %}
+
+{% block head %}
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    table.center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+</style>
+{% endblock head %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+<h1>Категории</h1>
+<hr size="10">
+{% if categorys %}
+{% for cat in categorys %}
+<table>
+    <tr>
+        <td><a href="/content/cats/{{ cat.id }}"><h2 align="left"><b>{{ cat.name }}</b></h2></a></td>
+    </tr>
+ </table>
+<br>
+<br>
+{% endfor %}
+{% else %}
+<h2> Нет категорий</h2>
+{% endif %}
+{% if page_obj.has_previous %}
+<a href="?{% url_replace page=1 %}">1</a>
+{% if page_obj.previous_page_number != 1 %}
+...
+<a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+{% endif %}
+{{ page_obj.number }}
+{% if page_obj.has_next %}
+<a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+<a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+{% endif %}
+{% endif %}
+{% if is_not_author %}
+<br>
+<button> <a href="sign/upgrade/"> Хочу стать автором!</a> </button>
+{% endif %}
+<br>
+<button> <a href="/content/cats/create/"> Создать </a> </button>
+{% endblock content %}

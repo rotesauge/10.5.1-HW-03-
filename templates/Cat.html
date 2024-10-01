@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+
+{% block title %}
+Post
+{% endblock title %}
+
+
+{% block content %}
+<h3> Категория </h3>
+<table>
+    <tr>
+        <td><h1 align="center"><b>{{ category.name }}</b></h1></td>
+    </tr>
+
+</table>
+<br>
+<button> <a href="/content/cats/subscribe?name={{ category.name }}"> Подписаться </a> </button>
+
+<h3> <a href="/content/cats/{{ category.id }}/update/"> Редактировать </a> </h3>
+<h3> <a href="/content/cats/{{ category.id }}/delete/"> Удалить </a> </h3>
+
+{% endblock content %}
